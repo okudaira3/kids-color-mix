@@ -801,12 +801,12 @@ export default function PaintPlayApp() {
     if (bleedsRef.current.length > 24) return; // モバイル負荷対策
     const s = Math.min(strength, 1.35); // 暴走防止の上限
     const bl = {
-      x: x + (Math.random() - 0.5) * size * 0.4,
-      y: y + (Math.random() - 0.5) * size * 0.4,
+      x: x + (Math.random() - 0.5) * size * 0.3,
+      y: y + (Math.random() - 0.5) * size * 0.3,
       hex,
       shape: makeBlobShape(),
-      r0: size * 0.55,
-      r1: size * (0.7 + Math.random() * 0.5) * s,
+      r0: size * 0.25,
+      r1: size * (0.32 + Math.random() * 0.22) * s,
       start: performance.now(),
       dur: 380 + Math.random() * 340,
       baseAlpha: 0.010 + Math.random() * 0.006,
@@ -817,7 +817,7 @@ export default function PaintPlayApp() {
     const canvas = canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext("2d");
-      drawBlob(ctx, bl.x, bl.y, bl.r0 * 0.9, bl.shape, hex, 0.03 * Math.min(1, s), performance.now() / 1000);
+      drawBlob(ctx, bl.x, bl.y, bl.r0 * 0.8, bl.shape, hex, 0.025 * Math.min(1, s), performance.now() / 1000);
     }
     runBleedLoop();
   }, [runBleedLoop]);
@@ -855,9 +855,8 @@ export default function PaintPlayApp() {
     strokeStateRef.current = initStrokeState(size);
     const ctx = canvasRef.current.getContext("2d");
     strokeDot(ctx, spriteRef.current, pos.x, pos.y, size, wetnessRef.current);
-    // 置いた瞬間にじわっ：芯の滲み＋外周のふわっとした水の輪の二段
-    spawnBleed(pos.x, pos.y, brushHex, size, 1.2 * wetnessRef.current + 0.4);
-    spawnBleed(pos.x, pos.y, brushHex, size * 1.5, 0.7 * wetnessRef.current + 0.3);
+    // 置いた瞬間にじわっ
+    spawnBleed(pos.x, pos.y, brushHex, size, 1.1 * wetnessRef.current + 0.3);
   };
 
   const handlePointerMove = (e) => {
